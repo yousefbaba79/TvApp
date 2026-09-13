@@ -15,6 +15,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
+import androidx.media3.ui.PlayerView
 import com.baba.israelitv.R
 import com.baba.israelitv.data.ChannelRepository
 import com.baba.israelitv.databinding.ActivityPlaybackBinding
@@ -47,6 +48,9 @@ class PlaybackActivity : AppCompatActivity() {
         streamUrl = url
         channelName = intent.getStringExtra(EXTRA_CHANNEL_NAME).orEmpty()
         userAgent = intent.getStringExtra(EXTRA_USER_AGENT)
+
+        binding.playerView.useController = true
+        setShowBuffering(binding.playerView)
 
         binding.retryButton.setOnClickListener { retryWithFreshUrl() }
     }
@@ -85,6 +89,11 @@ class PlaybackActivity : AppCompatActivity() {
 
         binding.playerView.player = exoPlayer
         player = exoPlayer
+    }
+
+    @OptIn(UnstableApi::class)
+    private fun setShowBuffering(playerView: PlayerView) {
+        playerView.setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING)
     }
 
     private fun releasePlayer() {
