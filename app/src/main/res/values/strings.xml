@@ -2,13 +2,9 @@
 <resources>
     <string name="app_name">Israel TV</string>
     <string name="browse_title">Israeli Channels</string>
-    <string name="action_refresh">Refresh Channels</string>
-    <string name="resolving_channels">Finding live stream links…</string>
     <string name="playback_error_title">Playback error</string>
     <string name="playback_error_message">Couldn\'t play %1$s. The stream link may have changed or the channel may be temporarily offline.</string>
     <string name="retry">Retry</string>
-    <string name="re_resolving">Looking for a fresh stream link…</string>
     <string name="status_live_link">Live link found</string>
     <string name="status_fallback_link">Using saved link</string>
-    <string name="actions_header">Options</string>
 </resources>
