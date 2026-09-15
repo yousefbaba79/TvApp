@@ -1,6 +1,7 @@
 package com.baba.israelitv.ui
 
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -17,12 +18,14 @@ class ChannelCardPresenter : Presenter() {
         cardView.isFocusable = true
         cardView.isFocusableInTouchMode = true
         val (widthPx, heightPx) = cardDimensionsPx(parent)
+        Log.d(TAG, "onCreateViewHolder: ${widthPx}x${heightPx}px")
         cardView.setMainImageDimensions(widthPx, heightPx)
         return ViewHolder(cardView)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, item: Any) {
         val channel = item as ResolvedChannel
+        Log.d(TAG, "onBindViewHolder: ${channel.displayName}")
         val cardView = viewHolder.view as ImageCardView
         cardView.titleText = channel.displayName
         cardView.contentText = when (channel.source) {
@@ -49,6 +52,7 @@ class ChannelCardPresenter : Presenter() {
     }
 
     companion object {
+        private const val TAG = "IsraelTV"
         private const val CARD_WIDTH_DP = 313f
         private const val CARD_HEIGHT_DP = 176f
     }

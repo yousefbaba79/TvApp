@@ -1,6 +1,7 @@
 package com.baba.israelitv.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.ArrayObjectAdapter
@@ -21,12 +22,19 @@ class ChannelsBrowseFragment : BrowseSupportFragment() {
     private lateinit var rowsAdapter: ArrayObjectAdapter
     private lateinit var channelsRowAdapter: ArrayObjectAdapter
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        title = getString(R.string.browse_title)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Must be set before the fragment's view hierarchy is created, otherwise the
+        // rows pane can be left sized/laid out as if headers were still enabled.
         headersState = HEADERS_DISABLED
         isHeadersTransitionOnBackEnabled = false
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.d(TAG, "onActivityCreated")
+
+        title = getString(R.string.browse_title)
         brandColor = ContextCompat.getColor(requireContext(), R.color.brand_blue)
 
         rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
@@ -35,6 +43,7 @@ class ChannelsBrowseFragment : BrowseSupportFragment() {
         channelsRowAdapter = ArrayObjectAdapter(ChannelCardPresenter())
         val channelsHeader = HeaderItem(0, getString(R.string.browse_title))
         rowsAdapter.add(ListRow(channelsHeader, channelsRowAdapter))
+        Log.d(TAG, "rowsAdapter row count after add: ${rowsAdapter.size()}")
 
         onItemViewClickedListener = OnItemViewClickedListener {
             _: Presenter.ViewHolder?, item: Any?, _: RowPresenter.ViewHolder?, _: Row? ->
@@ -47,7 +56,9 @@ class ChannelsBrowseFragment : BrowseSupportFragment() {
 
     private fun loadChannels() {
         channelsRowAdapter.clear()
-        ChannelCatalog.definitions.forEach { definition ->
+        val definitions = ChannelCatalog.definitions
+        Log.d(TAG, "loadChannels: catalog has ${definitions.size} definitions")
+        definitions.forEach { definition ->
             channelsRowAdapter.add(
                 ResolvedChannel(
                     id = definition.id,
@@ -58,5 +69,10 @@ class ChannelsBrowseFragment : BrowseSupportFragment() {
                 )
             )
         }
+        Log.d(TAG, "loadChannels: channelsRowAdapter now has ${channelsRowAdapter.size()} items")
+    }
+
+    companion object {
+        private const val TAG = "IsraelTV"
     }
 }
