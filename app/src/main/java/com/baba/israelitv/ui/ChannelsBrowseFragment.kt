@@ -14,7 +14,6 @@ import androidx.leanback.widget.Row
 import androidx.leanback.widget.RowPresenter
 import com.baba.israelitv.R
 import com.baba.israelitv.data.ChannelCatalog
-import com.baba.israelitv.model.ResolutionSource
 import com.baba.israelitv.model.ResolvedChannel
 
 class ChannelsBrowseFragment : BrowseSupportFragment() {
@@ -56,19 +55,9 @@ class ChannelsBrowseFragment : BrowseSupportFragment() {
 
     private fun loadChannels() {
         channelsRowAdapter.clear()
-        val definitions = ChannelCatalog.definitions
-        Log.d(TAG, "loadChannels: catalog has ${definitions.size} definitions")
-        definitions.forEach { definition ->
-            channelsRowAdapter.add(
-                ResolvedChannel(
-                    id = definition.id,
-                    displayName = definition.displayName,
-                    streamUrl = definition.fallbackUrl,
-                    userAgent = definition.fallbackUserAgent,
-                    source = ResolutionSource.FALLBACK
-                )
-            )
-        }
+        val channels = ChannelCatalog.asFallbackChannels()
+        Log.d(TAG, "loadChannels: catalog has ${channels.size} channels")
+        channels.forEach { channelsRowAdapter.add(it) }
         Log.d(TAG, "loadChannels: channelsRowAdapter now has ${channelsRowAdapter.size()} items")
     }
 

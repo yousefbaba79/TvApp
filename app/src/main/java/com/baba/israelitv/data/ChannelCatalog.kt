@@ -1,6 +1,8 @@
 package com.baba.israelitv.data
 
 import com.baba.israelitv.model.ChannelDefinition
+import com.baba.israelitv.model.ResolutionSource
+import com.baba.israelitv.model.ResolvedChannel
 
 private const val CHROME_USER_AGENT =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
@@ -46,4 +48,15 @@ object ChannelCatalog {
             fallbackUrl = "https://r.il.cdn-redge.media/livehls/oil/ch14/live/ch14/live.livx/playlist.m3u8"
         )
     )
+
+    /** The catalog's built-in URLs, ready to hand to the player without any network lookup. */
+    fun asFallbackChannels(): List<ResolvedChannel> = definitions.map { definition ->
+        ResolvedChannel(
+            id = definition.id,
+            displayName = definition.displayName,
+            streamUrl = definition.fallbackUrl,
+            userAgent = definition.fallbackUserAgent,
+            source = ResolutionSource.FALLBACK
+        )
+    }
 }
