@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.OptIn
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.media3.common.MediaItem
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
@@ -19,7 +19,7 @@ import com.baba.israelitv.R
 import com.baba.israelitv.databinding.ActivityPlaybackBinding
 import com.baba.israelitv.model.ResolvedChannel
 
-class PlaybackActivity : AppCompatActivity() {
+class PlaybackActivity : FragmentActivity() {
 
     private lateinit var binding: ActivityPlaybackBinding
 
